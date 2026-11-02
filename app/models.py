@@ -34,19 +34,3 @@ class SubmissionResponse(BaseModel):
     success: bool # true or false
     message: str # message for submission: success, error, failed
 
-
-#The important concept is:
-#
-#Pydantic model
-#       ↓
-#defines the shape of incoming data
-#       ↓
-#FastAPI validates it automatically
-#
-#For example, conceptually:
-#
-#{
-#    "name": "John",
-#    "email": "john@example.com",
-#    "message": "I need a website"
-#}
