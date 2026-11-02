@@ -49,8 +49,15 @@ Edit `.env`:
 | `RESEND_API_KEY` | Resend API key                                       |
 | `EMAIL_FROM`     | Sender address (must be a verified Resend domain)    |
 | `CORS_ORIGINS`   | Comma-separated list of allowed origins              |
+| `DATA_DIR`       | Absolute path to the writable directory for db, logs, and backups. |
 
 The app will not start if `RESEND_API_KEY` or `EMAIL_FROM` is missing. `CORS_ORIGINS` defaults to `http://localhost:1313`.
+
+## Where files live
+
+The code folder is read-only for the service. Everything the app writes goes in `DATA_DIR`:
+the database, `logs/`, `backups/` and `restore-test.db`. `.env` stays in the code folder.
+`DATA_DIR` must exist and be writable before the app starts. Locally it defaults to the project folder.
 
 ## Run
 
@@ -58,9 +65,11 @@ The app will not start if `RESEND_API_KEY` or `EMAIL_FROM` is missing. `CORS_ORI
 uvicorn app.main:app --reload
 ```
 
-The database file (`lead-form-database.db`) is created in the project root on first startup. Tables are created if they don't exist.
+The database file (`lead-form-database.db`) is created in the `DATA_DIR` on first startup. Tables are created if they don't exist.
 
 ## Add a site
+
+Note: Scripts use the same `DATA_DIR` as the app so run them with it set.
 
 Run from the project root:
 
@@ -128,7 +137,7 @@ Two tables:
 
 ## Backups
 
-Create a backup (saved to `backups/` with a timestamp):
+Create a backup (saved to `backups/` inside `DATA_DIR` with a timestamp):
 
 ```bash
 python -m scripts.backup_database
@@ -140,7 +149,7 @@ Test that a backup restores and passes SQLite's integrity check:
 python -m scripts.test_database_restore backups/<backup-file>.db
 ```
 
-The restore test writes to `restore-test.db` in the project root and refuses to run if that file already exists. Delete it when you are done.
+The restore test writes to `restore-test.db` in `DATA_DIR` and refuses to run if that file already exists. Delete it when you are done.
 
 ## Logs
 

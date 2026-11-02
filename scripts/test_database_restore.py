@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from contextlib import closing
 
-from app.config import BASE_DIR
+from app.config import DATA_DIR
 
 def test_restore(backup_path):
     # Convert the supplied path into an absolute path and check that it exists.
@@ -19,7 +19,7 @@ def test_restore(backup_path):
 
     # Restore into a separate file so the working database stays untouched.
     # This test file must not already exist, to avoid overwritting previous data.
-    restore_path = Path(BASE_DIR) / "restore-test.db"
+    restore_path = Path(DATA_DIR) / "restore-test.db"
 
     if restore_path.exists():
         raise FileExistsError(

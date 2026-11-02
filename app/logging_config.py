@@ -7,11 +7,11 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-from app.config import BASE_DIR
+from app.config import DATA_DIR
 
 # Store logs in a dedicated in the project root.
 # Path() lets us build file paths cleanly across directories.
-LOG_DIR = Path(BASE_DIR) / "logs"
+LOG_DIR = Path(DATA_DIR) / "logs"
 # This is the main log file. Older logs will be rotated into backup files.
 LOG_FILE = LOG_DIR / "lead-form-backend.log"
 
